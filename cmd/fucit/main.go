@@ -9,12 +9,20 @@ import (
 )
 
 func main() {
-	r, err := git.PlainOpen("")
+	repo, err := git.PlainOpen("")
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	iter, err := r.Branches()
+	remote, err := repo.Remote()
+	remote.Fetch()
+
+	worktree, err := repo.Worktree()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	iter, err := repo.Branches()
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -32,5 +40,6 @@ func main() {
 			continue
 		}
 		fmt.Println(iss)
+
 	}
 }
